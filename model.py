@@ -5,27 +5,25 @@ from typing import List, NewType, Optional
 
 from dateutil import relativedelta
 
-Quantity = NewType("Quantity", int)
-Sku = NewType("Sku", str)
-Reference = NewType("Reference", str)
-OrderReference = NewType("OrderReference", str)
-ProuductReference = NewType("ProductReferences", str)
+# Quantity = NewType("Quantity", int)
+# Sku = NewType("Sku", str)
+# Reference = NewType("Reference", str)
+# OrderReference = NewType("OrderReference", str)
+# ProuductReference = NewType("ProductReferences", str)
 
 
 ## Value Object: It has all __eq__ already given
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class OrderLine:
-    orderid: OrderReference
-    sku: ProuductReference
-    qty: Quantity
+    orderid: str
+    sku: str
+    qty: int
 
 
 ## Entity: Uniquly distinguishable using __eq__ and hash
 @dataclass
 class Batch:
-    def __init__(
-        self, ref: Reference, sku: ProuductReference, qty: Quantity, eta: Optional[date]
-    ) -> None:
+    def __init__(self, ref: str, sku: str, qty: int, eta: Optional[date]) -> None:
         self.reference = ref
         self.sku = sku
         self.eta = eta
